@@ -88,8 +88,8 @@ func TestConcurrent(t *testing.T) {
 
 	for i := 0; i < size; i++ {
 		go func(i int) {
-			m.Set(strconv.Itoa(i), i)
 			time.Sleep(time.Duration(rand.Intn(10)) * time.Microsecond)
+			m.Set(strconv.Itoa(i), i)
 			v, _ := m.Get(strconv.Itoa(i))
 			ch <- v.(int)
 		}(i)
