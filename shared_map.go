@@ -63,7 +63,7 @@ func (sm sharedMap) run() {
 	}
 }
 
-func NewMap() SharedMap {
+func New() SharedMap {
 	sm := sharedMap{
 		m: make(map[string]interface{}),
 		c: make(chan command),
