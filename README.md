@@ -45,4 +45,4 @@ $ go test github.com/jaehue/smap
 ```
 
 ## License
-MIT (see [LICENSE!](LICENSE) file)
+MIT (see [LICENSE](LICENSE) file)
