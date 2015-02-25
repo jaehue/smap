@@ -13,7 +13,7 @@ func TestStringer(t *testing.T) {
 	m := New()
 	m.Set("one", 1)
 	m.Set("two", 2)
-	if fmt.Sprint(m) != "map[one:1 two:2]" {
+	if s := fmt.Sprint(m); s != "map[one:1 two:2]" && s != "map[two:2 one:1]" {
 		t.Error("Default print method is wrong.")
 	}
 }

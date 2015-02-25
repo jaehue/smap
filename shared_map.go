@@ -18,9 +18,6 @@ type SharedMap interface {
 
 	// Return the number of item within the map.
 	Count() int
-
-	// Flush all command within the channel
-	Flush()
 }
 
 type sharedMap struct {
@@ -40,7 +37,7 @@ const (
 	get
 	remove
 	count
-	flush
+	show
 )
 
 // Sets the given value under the specified key
@@ -68,13 +65,6 @@ func (sm sharedMap) Count() int {
 	return (<-callback).(int)
 }
 
-// Flush all command within the channel
-func (sm sharedMap) Flush() {
-	callback := make(chan interface{})
-	sm.c <- command{action: flush, result: callback}
-	<-callback
-}
-
 func (sm sharedMap) run() {
 	for cmd := range sm.c {
 		switch cmd.action {
@@ -87,8 +77,8 @@ func (sm sharedMap) run() {
 			delete(sm.m, cmd.key)
 		case count:
 			cmd.result <- len(sm.m)
-		case flush:
-			cmd.result <- nil
+		case show:
+			cmd.result <- fmt.Sprint(sm.m)
 		}
 	}
 }
@@ -105,6 +95,7 @@ func New() SharedMap {
 
 // Default print method
 func (sm sharedMap) String() string {
-	sm.Flush()
-	return fmt.Sprint(sm.m)
+	callback := make(chan interface{})
+	sm.c <- command{action: show, result: callback}
+	return (<-callback).(string)
 }
