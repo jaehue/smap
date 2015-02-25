@@ -1,12 +1,20 @@
 package smap
 
 import (
+	"fmt"
 	"math/rand"
 	"sort"
 	"strconv"
 	"testing"
 	"time"
 )
+
+func TestStringer(t *testing.T) {
+	m := New()
+	m.Set("one", 1)
+	m.Set("two", 2)
+	fmt.Println(m)
+}
 
 func TestSet(t *testing.T) {
 	m := New()
