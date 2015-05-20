@@ -18,6 +18,8 @@ type SharedMap interface {
 
 	// Return the number of item within the map.
 	Count() int
+
+	Map() map[string]interface{}
 }
 
 type sharedMap struct {
@@ -39,6 +41,10 @@ const (
 	count
 	show
 )
+
+func (sm sharedMap) Map() map[string]interface{} {
+	return sm.m
+}
 
 // Sets the given value under the specified key
 func (sm sharedMap) Set(k string, v interface{}) {
